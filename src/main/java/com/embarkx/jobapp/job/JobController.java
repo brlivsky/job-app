@@ -23,7 +23,7 @@ public class JobController {
 
     @PostMapping()
     public ResponseEntity<String> createJobs(@RequestBody Job job) {
-        jobService.createJob(job);
+        jobService.createJob(job); // works only when one job is added (not a list of jobs), with no id // why id fails?
         return new ResponseEntity<>("Job added successfully", HttpStatus.CREATED);
     }
 
