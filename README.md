@@ -14,14 +14,12 @@ A simple backend application for managing job-related data, built with Spring Bo
 ## Technologies Used
 * Java
 * Spring Boot
-* PostgreSQL
 * Maven
 
 ## Getting Started
 ### Prerequisites
 * Java Development Kit (JDK) 8 or higher
 * Maven
-* PostgreSQL
 
 ### Installation
 1. Clone the repository:
@@ -39,7 +37,6 @@ A simple backend application for managing job-related data, built with Spring Bo
 4. Run the application:
   ```
   mvn spring-boot:run
-
   ```
 ## API Endpoints
 - Companies:
