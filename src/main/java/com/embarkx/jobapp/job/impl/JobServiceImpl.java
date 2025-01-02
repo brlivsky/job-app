@@ -1,22 +1,23 @@
 package com.embarkx.jobapp.job.impl;
 
+import com.embarkx.jobapp.company.Company;
+import com.embarkx.jobapp.company.CompanyRepository;
 import com.embarkx.jobapp.job.Job;
 import com.embarkx.jobapp.job.JobRepository;
 import com.embarkx.jobapp.job.JobService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class JobServiceImpl implements JobService {
-//    private List<Job> jobs = new ArrayList<>();
-    JobRepository jobRepository;
-//    private Long jobIndex = 0L;
+    final JobRepository jobRepository;
+    final CompanyRepository companyRepository;
 
-    public JobServiceImpl(JobRepository jobRepository) {
+    public JobServiceImpl(JobRepository jobRepository, CompanyRepository companyRepository) {
         this.jobRepository = jobRepository;
+        this.companyRepository = companyRepository;
     }
 
     @Override
@@ -25,9 +26,14 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void createJob(Job job) {
-//        job.setId(jobIndex++);
-        jobRepository.save(job);
+    public boolean createJob(Job job) {
+        Company company = companyRepository.findById(job.getCompany().getId()).orElse(null);
+        if (company != null) {
+            job.setCompany(company);
+            jobRepository.save(job);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -37,12 +43,11 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public boolean removeJob(Long id) {
-        try {
+        if (jobRepository.existsById(id)) {
             jobRepository.deleteById(id);
             return true;
-        } catch (Exception IllegalArgumentException) { // updtated Exception e
-            return false;
         }
+        return false;
     }
 
     @Override
